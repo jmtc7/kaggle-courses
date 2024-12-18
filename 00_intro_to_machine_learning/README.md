@@ -4,6 +4,7 @@ This course is estimated to last 3 hours, builds on Python, and prepares for the
 - [Intermediate Machine Learning](https://www.kaggle.com/learn/intermediate-machine-learning)
 - [Intro to Deep Learning](https://www.kaggle.com/learn/intro-to-deep-learning)
 
+A `requirements.txt` file is included. It lists all the required dependencies to run the coding exercises present in this course. To install it, please execute: `pip install -r requirements.txt`
 
 ## [Lesson 1: How Models Work](https://www.kaggle.com/code/dansbecker/how-models-work)
 ### Introduction
@@ -50,8 +51,26 @@ It's also important to mention than in the example we used a **regression model*
 
 This lesson includes an online [coding exercise](https://www.kaggle.com/kernels/fork/1404276).
 
+
 ## [Lesson 4: Model Validation](https://www.kaggle.com/code/dansbecker/model-validation)
-TODO
+### Mean Absolute Error (MAE)
+Measuring the quality of a model is the key to iteratively improve it. In most models, we measure *predictive accuracy*, which represents how close the predictions are to the reality.
+
+There are many metrics to evaluate the quality of a model, but here ***Mean Absolute Error (MAE)*** will be used. An error is the difference between the prediction and the reality. If the price of a house is 150k and we estimated 200k, there is a 50k error. If we take the absolute value of each of the errors of our predictions and then compute their mean, we would obtain the MAE. Another popular metric is the ***Mean Square Error (MSE)***. It is very similar to the MAE, but instead of using the absolute values of the errors, the square root of them is used.
+
+In the [Melbourne housing prices validation script](https://github.com/jmtc7/kaggle-courses/tree/main/00_intro_to_machine_learning/coding_exercises/lesson04_melbourne_housing_prices_validation.py), a model is defined, fitted, and validated.
+
+### Problem of *in-sample* Scores
+When using the same data to fit (a.k.a. train) and evaluate a model, we end up with what is known as an *in-sample* score. This is an issue, since our data may show some pattern that is not present in the real world, which would allow our model to discover and exploit that pattern, achieving a very high *in-sample* score while its performance for new data would be way worse. Also, during the fitting process, the model is optimized for the data we showed, while the real world will almost always present more variability, including combinations of features that our model never saw during the fitting process. Therefore, when evaluating our model with the same data used to fit it, we will always get results that are way too optimistic.
+
+The easiest way to avoid this is by putting aside a part of our data to be used exclusively for validation purposes and not for fitting. This way, when validating with new data, the obtained score will be more representative of the model's actual performance. However, since we are fitting the model with less data, it's likely to end up performing more poorly than if we would have used all of the data for fitting it. This is why the validation data shall ideally be insignificant with respect to the fitting data while still being variated and representative of the real world. A general approach for this split is to use 70% of the data for training and 30% for validation. The less data you have, the higher the percentage of the training set should become. When dealing with exceptionally low quantities of data, strategies such as the [***cross-validation (CV)***](https://en.wikipedia.org/wiki/Cross-validation_(statistics)) can help. There are several types of it. Some examples are:
+- **K-fold CV**: The data is divided in subsets (usually between 5 and 10 to balance accuracy and computational effort) and the model is trained in all subsets except one, which is used for validation. This is repeated for each possible combination of training/validation subsets. At the end we will get the mean and standard deviation (or variance) of the chosen validation metric.
+- **Leave-one-out CV**: An extreme version of K-fold CV. Instead of splitting the data in subsets, we split it in instances. Therefore, we train with all the houses in our dataset except for one, which will be used to validate. This process is repeated leaving out every single one of the data instances, one at a time.
+- **Nested CV**: It consist in a *meta-CV*. Using subsets of the same data for both training and validating can lead to more optimistic metrics. Nested CV solves it by having an iterative process to tune the model's parameter (which can use any of the abovementioned CVs) which will be followed by an additional validation (or *test*) step with data that has never been seen for neither training nor the 1st validation step.
+
+**Scikit-learn** has **train_test_split** to help divide a dataset into training and testing subsets. It is also used in the abovementioned [Melbourne housing prices validation script](https://github.com/jmtc7/kaggle-courses/tree/main/00_intro_to_machine_learning/coding_exercises/lesson04_melbourne_housing_prices_validation.py). When using the [Melbourne housing prices data](https://www.kaggle.com/datasets/dansbecker/melbourne-housing-snapshot) without splitting between training and validation, we get an error of around 500, but when we do the splitting, it goes up to more than 250 000, which better represents the performance of the model. This very big difference shows that our model was ***overfitted*** to our training data, which means that we need more data to have better real-world results. Further details about this will be seen in **Lesson 5**.
+
+As an additional note, the average home price is around 1.1 million, so having an error of 250k would mean an inaccuracy of a quarter of the price, which means that when training this model with this data, the result is not precise enough to be used in the real world.
 
 
 ## [Lesson 5: Underfitting and Overfitting](https://www.kaggle.com/code/dansbecker/underfitting-and-overfitting)

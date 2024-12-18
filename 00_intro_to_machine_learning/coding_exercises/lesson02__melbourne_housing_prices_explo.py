@@ -2,7 +2,7 @@ import pandas as pd
 
 # Path to the CSV with the Melbourne housing prices
 # Downloaded from https://www.kaggle.com/datasets/dansbecker/melbourne-housing-snapshot
-melbourne_prices_csv_path = '../../data/melb_data.csv'
+melbourne_prices_csv_path = '../data/melb_data.csv'
 
 # Read data and store in DataFrame
 melbourne_df = pd.read_csv(melbourne_prices_csv_path) 

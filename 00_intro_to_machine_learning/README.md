@@ -95,4 +95,10 @@ In the [random forest script](https://github.com/jmtc7/kaggle-courses/tree/main/
 
 
 ## [Lesson 7: Machine Learning Competitions](https://www.kaggle.com/code/alexisbcook/machine-learning-competitions)
-TODO
+In order to improve the knowledge on ML and get practical experience, Kaggle's ML competitions are a great option, since they provide a problem and the data to solve it. An example of them is the [House Prices Competition](https://www.kaggle.com/c/home-data-for-ml-course).
+
+After completing this course, good next steps are:
+- [Kaggle ML competitions](https://www.kaggle.com/competitions) to learn how to optimize random forest and experiment with data on our own.
+- [Intermediate ML course](https://www.kaggle.com/learn/intermediate-machine-learning) to learn how to handle missing data and how to use *xgboost* to get even better results than the ones we get with a random forest.
+- [Pandas course](https://www.kaggle.com/Learn/Pandas) to improve our data manipulation skills.
+- [Introduction to Deep Learning course](https://www.kaggle.com/Learn/intro-to-Deep-Learning) to build advanced Computer Vision models that perform even better than humans.

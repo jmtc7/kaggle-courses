@@ -20,3 +20,4 @@ Kaggle proposes several courses, from the basics of Python programming to Deep L
 
 Here is a list of the courses for which I have notes, linking to the folders of this repository containing the related files to each of them:
 - [Introduction to Machine Learning](https://github.com/jmtc7/kaggle-courses/tree/main/00_intro_to_machine_learning)
+- [Intermediate Machine Learning](https://github.com/jmtc7/kaggle-courses/tree/main/01_intermediate_machine_learning)

@@ -4,8 +4,8 @@ from sklearn.ensemble import RandomForestRegressor
 from sklearn.model_selection import train_test_split
 
 # Read the data
-X_full = pd.read_csv('../data/home-data-for-ml-course/train.csv', index_col='Id')
-X_test_full = pd.read_csv('../data/home-data-for-ml-course/test.csv', index_col='Id')
+X_full = pd.read_csv('../../data/home-data-for-ml-course/train.csv', index_col='Id')
+X_test_full = pd.read_csv('../../data/home-data-for-ml-course/test.csv', index_col='Id')
 
 # Obtain target and predictors
 y = X_full.SalePrice

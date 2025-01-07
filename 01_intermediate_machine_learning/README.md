@@ -15,11 +15,16 @@ This course will go trough more realistic usecases than the [Introduction to Mac
 
 There will be some coding exercises, which will use the data from [Kaggle's Housing Prices Competition](https://www.kaggle.com/c/home-data-for-ml-course). The predictions will be submitted to see how we rise in the leaderboard as we improve our model.
 
-An example script refreshing how to read data, build a random forest, train it, and generate predictions will be available in the [ML review script](https://github.com/jmtc7/kaggle-courses/tree/main/01_intermediate_machine_learning/coding_exercises/lesson00__ml_intro_review.py). It generates the `lesson01__submission.csv`, which can be used to submit predictions to the [Kaggle's Housing Prices Competition](https://www.kaggle.com/c/home-data-for-ml-course). It gives a public score of 20998.8378.
+An example script refreshing how to read data, build a random forest, train it, and generate predictions will be available in the [ML review script](https://github.com/jmtc7/kaggle-courses/tree/main/01_intermediate_machine_learning/coding_exercises/lesson01__ml_intro_review.py). It generates the `lesson01__submission.csv`, which can be used to submit predictions to the [Kaggle's Housing Prices Competition](https://www.kaggle.com/c/home-data-for-ml-course). It gives a public score of 20998.8378.
 
 
 ## [Lesson 2: Missing Values](https://www.kaggle.com/code/alexisbcook/missing-values)
-TODO
+In data from real world datasets there are often missing values. There are several approaches to deal with it:
+- **Dropping all variables with missing data** is the simplest option. However, unless most of the values are missing, this would negatively affect the model significantly, since relevant information may be represented by changes in this variable.
+- **Imputation** is a method that consist in filling up the missing values. A simple approach is to use the mean value of the column. It will very likely be wrong, but it's better than dropping the entire column. More advanced guesses, such as *regression imputation* can be used, but the complexity of the solution escalates quickly and it usually doesn't end in big performance improvements, specially when dealing with advanced ML algotihms.
+- **Extended imputation** consist in adding a boolean column for each of the columns with missing values. It will be set to `True` whenever an imputation is performed. This can help with some ML models, but it is absolutely useless with others.
+
+The [missing values script](https://github.com/jmtc7/kaggle-courses/tree/main/01_intermediate_machine_learning/coding_exercises/lesson02__missing_values.py) implements each of these options and evaluates the MAE of a default random forest when using each of them. The obtained MAEs are 175703, 169237, and 169795, respectively. From the 12 used columns, 3 contain missing values, so removing them removes a significant amount of the available data. This is why imputation methods perform better than removing the columns. The difference between the results when using regular imputation vs the extended one come from the fact that, given that we added some columns, the input data is not the same, so some variance is expected. We saw, however, that the model did NOT benefit from the additional information.
 
 
 ## [Lesson 3: Categorical Variables](https://www.kaggle.com/code/alexisbcook/categorical-variables)

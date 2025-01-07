@@ -2,5 +2,4 @@
 *.csv
 
 # Data folders
-00_intro_to_machine_learning/data
-01_intermediate_machine_learning/data
+data

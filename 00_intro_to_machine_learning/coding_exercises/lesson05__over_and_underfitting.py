@@ -11,7 +11,7 @@ def get_mae(max_leaf_nodes, train_x, val_x, train_y, val_y):
     return(mae)
     
 # Load data and drop missing values
-melbourne_file_path = '../data/melb_data.csv'
+melbourne_file_path = '../../data/melbourne-housing-snapshot/melb_data.csv'
 melbourne_data = pd.read_csv(melbourne_file_path) 
 melbourne_data = melbourne_data.dropna(axis=0)
 

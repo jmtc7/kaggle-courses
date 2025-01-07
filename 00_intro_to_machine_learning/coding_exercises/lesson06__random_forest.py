@@ -4,7 +4,7 @@ from sklearn.metrics import mean_absolute_error
 import pandas as pd
     
 # Load data and drop missing values
-melbourne_file_path = '../data/melb_data.csv'
+melbourne_file_path = '../../data/melbourne-housing-snapshot/melb_data.csv'
 melbourne_data = pd.read_csv(melbourne_file_path) 
 melbourne_data = melbourne_data.dropna(axis=0)
 

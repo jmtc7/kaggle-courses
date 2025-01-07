@@ -3,7 +3,7 @@ import pandas as pd # To manage data
 
 # Load CSV with Melbourne prices as a DataFrame
 # Downloaded from https://www.kaggle.com/datasets/dansbecker/melbourne-housing-snapshot
-melbourne_prices_csv_path = '../data/melb_data.csv'
+melbourne_prices_csv_path = '../../data/melbourne-housing-snapshot/melb_data.csv'
 melbourne_df = pd.read_csv(melbourne_prices_csv_path)
 
 # Print columns (variables) and drop missing values

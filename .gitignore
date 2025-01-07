@@ -1,4 +1,5 @@
-*.csv # Prediction files
+# Prediction files
+*.csv
 
 # Data folders
 00_intro_to_machine_learning/data

@@ -53,4 +53,4 @@ final_model.fit(X, y)
 # Generate test predictions and generate submission CSV for Kaggle competition
 preds_test = final_model.predict(X_test)
 output = pd.DataFrame({'Id': X_test.index, 'SalePrice': preds_test})
-output.to_csv('00submission.csv', index=False)
+output.to_csv('lesson01__submission.csv', index=False)

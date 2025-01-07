@@ -15,7 +15,7 @@ This course will go trough more realistic usecases than the [Introduction to Mac
 
 There will be some coding exercises, which will use the data from [Kaggle's Housing Prices Competition](https://www.kaggle.com/c/home-data-for-ml-course). The predictions will be submitted to see how we rise in the leaderboard as we improve our model.
 
-An example script refreshing how to read data, build a random forest, train it, and generate predictions will be available in the [ML review script](https://github.com/jmtc7/kaggle-courses/tree/main/01_intermediate_machine_learning/coding_exercises/lesson00__ml_intro_review.py). It generates the `00predictions.csv`, which can be used to submit predictions to the [Kaggle's Housing Prices Competition](https://www.kaggle.com/c/home-data-for-ml-course). It gives a public score of 20998.8378.
+An example script refreshing how to read data, build a random forest, train it, and generate predictions will be available in the [ML review script](https://github.com/jmtc7/kaggle-courses/tree/main/01_intermediate_machine_learning/coding_exercises/lesson00__ml_intro_review.py). It generates the `lesson01__submission.csv`, which can be used to submit predictions to the [Kaggle's Housing Prices Competition](https://www.kaggle.com/c/home-data-for-ml-course). It gives a public score of 20998.8378.
 
 
 ## [Lesson 2: Missing Values](https://www.kaggle.com/code/alexisbcook/missing-values)

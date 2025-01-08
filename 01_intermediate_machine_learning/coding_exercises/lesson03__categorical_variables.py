@@ -27,7 +27,7 @@ X_train_full.drop(cols_with_missing, axis=1, inplace=True)
 X_valid_full.drop(cols_with_missing, axis=1, inplace=True)
 
 # "Cardinality" means the number of unique values in a column
-# Select categorical columns with relatively low cardinality (convenient but arbitrary)
+# Select categorical columns with relatively low cardinality (<10 values, convenient but arbitrary)
 low_cardinality_cols = [cname for cname in X_train_full.columns if X_train_full[cname].nunique() < 10 and X_train_full[cname].dtype == "object"]
 
 # Select numerical columns
@@ -45,6 +45,20 @@ object_cols = list(s[s].index)
 print("Categorical variables:")
 print(object_cols)
 
+
+# Analyze issues with values appearing in validation but not training
+# Categorical columns in the training data
+object_cols = [col for col in X_train.columns if X_train[col].dtype == "object"]
+
+# Columns that can be safely ordinal encoded
+good_label_cols = [col for col in object_cols if 
+                   set(X_valid[col]).issubset(set(X_train[col]))]
+        
+# Problematic columns that will be dropped from the dataset
+bad_label_cols = list(set(object_cols)-set(good_label_cols))
+        
+print(f'\nCategorical columns whose values are in both training and validation sets: {good_label_cols}')
+print(f'Categorical columns with values in validation set that are not in the training set: {bad_label_cols}\n')
 
 # OPTION 1: DROP CATEGORICAL VARIABLES
 drop_X_train = X_train.select_dtypes(exclude=['object'])

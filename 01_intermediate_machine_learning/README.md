@@ -41,6 +41,10 @@ The categorical variables with an intrinsic rnaking (i.e., those which can be so
 
 The [categorical variables script](https://github.com/jmtc7/kaggle-courses/tree/main/01_intermediate_machine_learning/coding_exercises/lesson03__categorical_variables.py) implements each of these options and evaluates the MAE of a random forest with 100 estimators when using each of them. For ordinal encoding, random integers are assigned to the possible values. The obtained MAEs are 175703, 165936, and 166089, respectively. We see how dropping all categorical values had a negative effect in the results, which means that they contain some relevant information. The other two approaches gave us quite similar result, so there isn't a noticeable difference between them. Usually, one-hot encoding gives the best results.
 
+Note that when dealing with categorical data, we may face a situation in which there are some values in some of the sets of data (training, validation, or test) that don't appear in the other sets. This is problematic because it can mess up our encodings. These columns can be easily found using Python's `Sets`, as done in the [categorical variables script](https://github.com/jmtc7/kaggle-courses/tree/main/01_intermediate_machine_learning/coding_exercises/lesson03__categorical_variables.py). To solve this, you can:
+- Drop the problematic categorical columns.
+- Write a custom ordinal encoding that deals with unseen values by, for example, adding a new integer.
+
 
 ## [Lesson 4: Pipelines](https://www.kaggle.com/code/alexisbcook/pipelines)
 TODO

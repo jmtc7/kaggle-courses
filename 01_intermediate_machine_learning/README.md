@@ -32,7 +32,14 @@ The [missing values script](https://github.com/jmtc7/kaggle-courses/tree/main/01
 
 
 ## [Lesson 3: Categorical Variables](https://www.kaggle.com/code/alexisbcook/categorical-variables)
-TODO
+Variables that can only have a finite amount of values are known as ***categorical*** or ***discrete*** variables. An example would be a field in a `DataFrame` that contains the brand of a vehicle. There are only a few possible valid values for such a field. To use them in ML algorithms, they often need some preprocessing. These are the most common approaches:
+- **Dropping categorical variables**: The simplest way to deal with them is not using them. However, they may hide relevant information that we won't be able to take advantage of.
+- **Ordinal encoding**: It assigns each possible value an integer value. This assumes that the categorical variable can be sorted in some way. For example: "Never" (0) < "Rarely" (1) < "Most days" (2) < "Every day" (3). This approach usually works well with tree-based algorithms. A common alternative is to set random integers to each possible value, but it often gives worse results than custom labels.
+- **One-hot encoding**: It generates a new column for each possible value of the categorical variable. The values of these new columns will be set to `True` whenever the sample had that value in the original variable. For example, if having a `color` variable that can be `red`, `yellow`, or `green`, they can't be sorted. Therefore, we could create three new columns: `red`, `yellow`, and `green`. Lastly, we would set to `True` the column `red` and to `False` the colmuns `yellow` and `green` for all the samples whose `color` was `red`, etc. This approach's performance often drops when many values are possible, from 15 or so.
+
+The categorical variables with an intrinsic rnaking (i.e., those which can be sorted) are known as ***ordinal variables***. The categorical variables that can't be sorted are known as ***nominal variables***.
+
+The [categorical variables script](https://github.com/jmtc7/kaggle-courses/tree/main/01_intermediate_machine_learning/coding_exercises/lesson03__categorical_variables.py) implements each of these options and evaluates the MAE of a random forest with 100 estimators when using each of them. For ordinal encoding, random integers are assigned to the possible values. The obtained MAEs are 175703, 165936, and 166089, respectively. We see how dropping all categorical values had a negative effect in the results, which means that they contain some relevant information. The other two approaches gave us quite similar result, so there isn't a noticeable difference between them. Usually, one-hot encoding gives the best results.
 
 
 ## [Lesson 4: Pipelines](https://www.kaggle.com/code/alexisbcook/pipelines)

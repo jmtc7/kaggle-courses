@@ -1,4 +1,5 @@
 import pandas as pd
+from sklearn.impute import SimpleImputer
 from sklearn.metrics import mean_absolute_error
 from sklearn.preprocessing import OrdinalEncoder
 from sklearn.preprocessing import OneHotEncoder
@@ -13,6 +14,7 @@ def score_dataset(X_train, X_valid, y_train, y_valid):
     return mean_absolute_error(y_valid, preds)
 
 # Read the data and separate target from predictors
+#data = pd.read_csv('C:/Users/uic84925/Downloads/kaggle-courses/data/melbourne-housing-snapshot/melb_data.csv')
 data = pd.read_csv('../../data/melbourne-housing-snapshot/melb_data.csv')
 y = data.Price
 X = data.drop(['Price'], axis=1)
@@ -26,33 +28,47 @@ cols_with_missing = [col for col in X_train_full.columns if X_train_full[col].is
 X_train_full.drop(cols_with_missing, axis=1, inplace=True)
 X_valid_full.drop(cols_with_missing, axis=1, inplace=True)
 
-# "Cardinality" means the number of unique values in a column
-# Select categorical columns with relatively low cardinality (<10 values, convenient but arbitrary)
-low_cardinality_cols = [cname for cname in X_train_full.columns if X_train_full[cname].nunique() < 10 and X_train_full[cname].dtype == "object"]
+# ANALYZE DATA -------------------------------------------------------------------------------------
 
-# Select numerical columns
+# Get list of numerical columns
 numerical_cols = [cname for cname in X_train_full.columns if X_train_full[cname].dtype in ['int64', 'float64']]
+print(f'Numerical variables:\n  {numerical_cols}')
+
+# Get list of categorical variables
+object_cols = [col for col in X_train_full.columns if X_train_full[col].dtype == "object"]
+print(f'Categorical variables: ')
+
+# Get lists of categorical variables with high and low cardinality (more/less than 10 values)
+low_card_thresh = 10
+low_cardinality_cols = [col for col in object_cols if X_train_full[col].nunique() < low_card_thresh]
+high_cardinality_cols = list(set(object_cols) - set(low_cardinality_cols))
+print(f'  - Low cardinality (less than 10 different values): {low_cardinality_cols}')
+print(f'  - High cardinality (more than 10 different values): {high_cardinality_cols}')
+
+# Get number of unique entries in each column with categorical data
+object_nunique = list(map(lambda col: X_train_full[col].nunique(), object_cols))
+d = dict(zip(object_cols, object_nunique))
+
+# Print number of unique entries by column, in ascending order
+print('\nNumber of unique values in each categorical variable:')
+print(sorted(d.items(), key=lambda x: x[1]))
+high_cardinality_numcols = len([x for x in d.keys() if d[x]>10])
+print(f'Number of categorical variables with cardinality > 10: {high_cardinality_numcols}')
+print(f'Number of different values in variable "Method": {d["Method"]}')
+
+# PREPARE DATA -------------------------------------------------------------------------------------
 
 # Keep selected columns only
 my_cols = low_cardinality_cols + numerical_cols
 X_train = X_train_full[my_cols].copy()
 X_valid = X_valid_full[my_cols].copy()
 
-# Get list of categorical variables
-s = (X_train.dtypes == 'object')
-object_cols = list(s[s].index)
-
-print("Categorical variables:")
-print(object_cols)
-
+# Overwrite list of categorical variables, since we are now only using the low cardinality ones
+object_cols = low_cardinality_cols
 
 # Analyze issues with values appearing in validation but not training
-# Categorical columns in the training data
-object_cols = [col for col in X_train.columns if X_train[col].dtype == "object"]
-
 # Columns that can be safely ordinal encoded
-good_label_cols = [col for col in object_cols if 
-                   set(X_valid[col]).issubset(set(X_train[col]))]
+good_label_cols = [col for col in object_cols if set(X_valid[col]).issubset(set(X_train[col]))]
         
 # Problematic columns that will be dropped from the dataset
 bad_label_cols = list(set(object_cols)-set(good_label_cols))
@@ -60,7 +76,7 @@ bad_label_cols = list(set(object_cols)-set(good_label_cols))
 print(f'\nCategorical columns whose values are in both training and validation sets: {good_label_cols}')
 print(f'Categorical columns with values in validation set that are not in the training set: {bad_label_cols}\n')
 
-# OPTION 1: DROP CATEGORICAL VARIABLES
+# OPTION 1: DROP CATEGORICAL VARIABLES -------------------------------------------------------------
 drop_X_train = X_train.select_dtypes(exclude=['object'])
 drop_X_valid = X_valid.select_dtypes(exclude=['object'])
 
@@ -68,7 +84,7 @@ print("MAE from Approach 1 (Drop categorical variables):")
 print(score_dataset(drop_X_train, drop_X_valid, y_train, y_valid))
 
 
-# OPTION 2: ORDINAL ENCODING
+# OPTION 2: ORDINAL ENCODING -----------------------------------------------------------------------
 # Make copy to avoid changing original data 
 label_X_train = X_train.copy()
 label_X_valid = X_valid.copy()
@@ -83,7 +99,7 @@ print("MAE from Approach 2 (Ordinal Encoding):")
 print(score_dataset(label_X_train, label_X_valid, y_train, y_valid))
 
 
-# OPTION 3: ONE-HOT ENCODING
+# OPTION 3: ONE-HOT ENCODING -----------------------------------------------------------------------
 # Apply one-hot encoder to each column with categorical data
 # NOTE: handle_unknown='ignore' to avoid errors when validation data contains classes that aren't in the training data
 # NOTE: sparse=False to return the encoded columns as a numpy array (instead of a sparse matrix)
